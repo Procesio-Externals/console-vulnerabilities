@@ -1,6 +1,6 @@
-
+// Microsoft.AspNetCore.Mvc.Core 2.2.5 is deprecated
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace WebAPI.Controllers
 {

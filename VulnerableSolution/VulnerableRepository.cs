@@ -1,7 +1,5 @@
-
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Runtime.Serialization;
-using System.IO;
 
 namespace DataAccess
 {

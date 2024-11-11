@@ -1,0 +1,26 @@
+# Ignore all bin folders
+**/bin/
+
+# Ignore all obj folders
+**/obj/
+
+# Ignore all out folders
+**/out/
+
+# Ignore all publish folders
+**/publish/
+
+# Ignore all wwwroot folders
+**/wwwroot/
+
+# Ignore all .vs folders
+**/.vs/
+
+# Ignore all node_modules folders
+**/node_modules/
+
+# Ignore all .idea folders
+**/.idea/
+
+# Ignore all packages folders
+**/packages/
