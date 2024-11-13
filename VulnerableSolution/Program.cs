@@ -1,7 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using VulnerableSolution.EndlessDepLoop;
+using VulnerableSolution.EndlessLoop;
+using VulnerableSolution.InjectionLoop;
 
 // Hardcoded sensitive information
 string ApiSecret = "SuperSecretAPIKey";
@@ -11,6 +11,10 @@ Encrypt("easyKey");
 
 // Start an endless loop
 StartEndlessLoop();
+
+
+// start an endless loop thorugh dependency injection
+StartDependencyInjectionEndlessLoop(args);
 
 static void Encrypt(string apiSecret)
 {
@@ -25,8 +29,26 @@ static void Encrypt(string apiSecret)
     }
 }
 
-
 static void StartEndlessLoop()
 {
     var loopCode = new LoopManager();
+    loopCode.UseLoopBll();
+}
+
+static void StartDependencyInjectionEndlessLoop(string[] args)
+{
+    var builder = WebApplication.CreateBuilder(args);
+
+    //Add the service
+    builder.Services.AddScoped<IInjectionLoopManager, InjectionLoopManager>();
+    builder.Services.AddScoped<IInjectionLoopBll, InjectionLoopBll>();
+
+    var app = builder.Build();
+    using (var serviceScope = app.Services.CreateScope())
+    {
+        var services = serviceScope.ServiceProvider;
+        var myDependency = services.GetRequiredService<IInjectionLoopManager>();
+    }
+
+    app.Run();
 }

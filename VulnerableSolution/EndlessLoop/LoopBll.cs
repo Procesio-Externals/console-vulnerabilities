@@ -1,4 +1,4 @@
-﻿namespace VulnerableSolution.EndlessDepLoop
+﻿namespace VulnerableSolution.EndlessLoop
 {
     internal class LoopBll
     {
