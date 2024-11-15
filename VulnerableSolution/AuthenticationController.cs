@@ -31,7 +31,6 @@ namespace VulnerableSolution
                         Password = reader.GetString(reader.GetOrdinal("Password"))
                     };
                 }
-                // Process data...
             }
             
             if(currentUser == null)
