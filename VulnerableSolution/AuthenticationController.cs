@@ -32,13 +32,16 @@ namespace VulnerableSolution
                 }
                 // Process data...
             }
+            
             if(currentUser == null)
             {
+                //The message provides information about the existence of the user that an attacker can take advantage of
                 return BadRequest("Invalid username");
             }
 
             if (!currentUser.Password.Equals(password))
             {
+                //The message provides information about the existence of the user that an attacker can take advantage of
                 return BadRequest("Invalid password");
             }
 

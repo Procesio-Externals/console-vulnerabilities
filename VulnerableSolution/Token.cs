@@ -8,6 +8,7 @@ namespace VulnerableSolution
 
         public static string Generate(string username)
         {
+            //This token generation doesn't provide security.
             string timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
 
             string token = $"{username}:{timestamp}:{_secret}";
