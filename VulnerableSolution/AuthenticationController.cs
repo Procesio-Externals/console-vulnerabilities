@@ -17,6 +17,7 @@ namespace VulnerableSolution
             UserModel currentUser = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                // Sql injection vulnerability: username is directly concatenated into the SQL command
                 string query = "SELECT Username, Email, Password FROM Users WHERE Username = '" + userName + "'";
                 SqlCommand command = new SqlCommand(query, connection);
                 connection.Open();
