@@ -52,5 +52,26 @@ namespace WebAPI.Controllers
             // Returns the file content as plain text
             return Content(content, "text/plain");
         }
+
+        //Leaving a database connection open without closing it is a common vulnerability that can lead to connection leaks
+        [HttpGet("get-data")]
+        public IActionResult GetData()
+        {
+            // Vulnerable: Database connection is not closed
+            SqlConnection connection = new SqlConnection("your-connection-string-here");
+            connection.Open();
+
+            SqlCommand command = new SqlCommand("SELECT * FROM Users", connection);
+            SqlDataReader reader = command.ExecuteReader();
+
+            List<string> users = new List<string>();
+            while (reader.Read())
+            {
+                users.Add(reader["Username"].ToString());
+            }
+
+            // Connection remains open here!
+            return Ok(users);
+        }
     }
 }
