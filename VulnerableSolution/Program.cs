@@ -2,6 +2,7 @@
 using System.Text;
 using VulnerableSolution.EndlessLoop;
 using VulnerableSolution.InjectionLoop;
+using VulnerableSolution.ThreadDeadlock;
 
 // Hardcoded sensitive information
 string ApiSecret = "SuperSecretAPIKey";
@@ -12,8 +13,10 @@ Encrypt("easyKey");
 // Start an endless loop
 StartEndlessLoop();
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<IThreadManager, ThreadManager>();
 
-// start an endless loop thorugh dependency injection
+// start an endless loop through dependency injection
 StartDependencyInjectionEndlessLoop(args);
 
 static void Encrypt(string apiSecret)
