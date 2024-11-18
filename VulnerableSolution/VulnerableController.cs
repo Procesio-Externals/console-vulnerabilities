@@ -33,5 +33,24 @@ namespace WebAPI.Controllers
         {
             return Ok(Encryption.Encrypt(text));
         }
+
+        //opening file connection without closing it can lead to resource exhaustion
+        //common type of resource leak vulnerability
+        [HttpGet("read-file")]
+        public IActionResult ReadFile(string fileName)
+        {
+            // Path validation is also missing, allowing potential path traversal attacks
+            string filePath = Path.Combine("files", fileName);
+
+            // Opens a file stream but does not close it
+            FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            StreamReader reader = new StreamReader(fileStream);
+
+            // Reads the file content
+            string content = reader.ReadToEnd(); // File remains open even after reading
+
+            // Returns the file content as plain text
+            return Content(content, "text/plain");
+        }
     }
 }
