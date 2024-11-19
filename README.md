@@ -6,3 +6,17 @@ Vulnerabilities:
 
 
 - unpopulated .gitignore file that can lead to Sensitive Information Exposure.
+
+NodeJS vulnerabilities:
+
+- No content limit set for Multer (DOS if a big file is uploaded)
+- Regex can be backtracked
+- Username and password hardcoded
+- No ENV file
+- No .gitignore file
+
+LibraryAPI
+
+- ConnectionString in appsettings.json
+- No Env file
+- No .gitignore file

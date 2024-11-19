@@ -1,5 +1,0 @@
-1. No content limit set for Multer (DOS if a big file is uploaded)
-2. Regex can be backtracked
-3. Username and password hardcoded
-4. No ENV file
-5. No .gitignore file

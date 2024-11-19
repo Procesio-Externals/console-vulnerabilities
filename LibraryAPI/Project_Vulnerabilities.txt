@@ -1,3 +1,0 @@
-1. ConnectionString in appsettings.json
-2. No Env file
-3. No .gitignore file
