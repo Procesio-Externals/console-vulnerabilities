@@ -5,4 +5,4 @@ Vulnerabilities:
 - The generation of token has no cryptographic signing or integrity protection, it is just Base64 encoded, it does not include an expiration mechanism, meaning it can be used indefinitely once issued and it is created using a predictable and static structure
 
 
-- unpopulated .gitignore file
+- unpopulated .gitignore file that can lead to Sensitive Information Exposure.
