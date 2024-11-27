@@ -25,7 +25,7 @@ Vulnerabilities:
 	- Token has no expiration date and can be used any Timer
 - The application is exposed to SQL injection
 - The application is exposed to resource exhaustion due to not closing opened files
-- Teh application is exposed to insecure deserialization
+- The application is exposed to insecure deserialization
 - The application has an unpopulated .gitignore file that can lead to Sensitive Information Exposure.
 
 
