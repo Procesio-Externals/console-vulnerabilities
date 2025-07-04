@@ -83,6 +83,31 @@ public class VulnerableController : ControllerBase
         // Connection remains open here!
         return Ok(users);
     }
+	
+	
+    //opening a database connection without closing it
+    //common vulnerability that can lead to connection leaks
+	//prone to sql injection
+	// using an sql connection in clear
+    [HttpGet("get-new-data")]
+    public IActionResult GetNewData(string sqlParameter)
+    {
+        // Vulnerable: Database connection is not closed
+        SqlConnection connection = new SqlConnection("Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword1324321432;");
+        connection.Open();
+
+        SqlCommand command = new SqlCommand($"SELECT * FROM Users where Users.Email = {sqlParameter}", connection);
+        SqlDataReader reader = command.ExecuteReader();
+
+        List<string> users = new List<string>();
+        while (reader.Read())
+        {
+            users.Add(reader["Username"].ToString());
+        }
+
+        // Connection remains open here!
+        return Ok(users);
+    }
 
     //starting a thread without managing it can lead to resource exhaustion
     //common vulnerability that can degrade system performance
