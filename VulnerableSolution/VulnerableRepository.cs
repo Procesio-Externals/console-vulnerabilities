@@ -18,7 +18,7 @@ namespace DataAccess
             }
         }
 
-        // Insecure Deserialization
+        // Insecure Deserialization 
         public void DeserializeData(string serializedData)
         {
             DataContractSerializer serializer = new DataContractSerializer(typeof(object));
