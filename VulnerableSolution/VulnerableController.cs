@@ -19,6 +19,7 @@ public class VulnerableController : ControllerBase
     }
 
     // SQL Injection Vulnerability: User input is directly concatenated into the SQL command
+	// console trigger.
     [HttpGet("get-user")]
     public IActionResult GetUser(
         [FromHeader] string token, //username should be taken from token not body payload
