@@ -32,7 +32,7 @@ namespace VulnerableSolution
                     };
                 }
             }
-             
+              
             if(currentUser == null)
             {
                 //The message provides information about the existence of the user that an attacker can take advantage of
