@@ -13,7 +13,7 @@ namespace VulnerableSolution
             [FromHeader] string userName,
             [FromHeader] string password)
         {
-            string connectionString = "YourConnectionStringHere";
+            string connectionString = "YourConnectionStringHere"; 
             UserModel currentUser = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
