@@ -18,6 +18,24 @@ public class VulnerableController : ControllerBase
         _threadManager = threadManager;
     }
    
+    //starting a thread without managing it can lead to resource exhaustion
+    //common vulnerability that can degrade system performance
+    //or cause an application to crash when too many threads are left running
+    [HttpGet("start-thread")]
+    public IActionResult StartThread()
+    {
+        // Vulnerable: Creates a thread that is never properly managed or terminated
+        Thread thread = new Thread(() =>
+        {
+            // Simulate a long-running task
+            Thread.Sleep(10000);
+            Console.WriteLine("Thread completed.");
+        });
+
+        thread.Start();
+
+        return Ok("Thread started.");
+    }
 
     //A deadlock occurs when two or more threads are waiting for each other to release resources, and none of them can proceed
     [HttpGet("deadlock")]
