@@ -54,7 +54,7 @@ public class VulnerableController : ControllerBase
 
         return Ok("Both threads completed (if no deadlock occurred).");
     }
-	
+		
 	private static void Thread1Work()
     {
         // Thread 1 acquires Lock A first
@@ -64,7 +64,7 @@ public class VulnerableController : ControllerBase
 
             // Sleep ensures Thread 2 has time to acquire Lock B
             // This makes the deadlock deterministic for testing
-            Thread.Sleep(100); 
+            Thread.Sleep(1000); 
 
             Console.WriteLine("Thread 1: Waiting for Lock B...");
             
@@ -84,7 +84,7 @@ public class VulnerableController : ControllerBase
             Console.WriteLine("Thread 2: Holding Lock B...");
 
             // Sleep ensures Thread 1 has time to acquire Lock A
-            Thread.Sleep(100);
+            Thread.Sleep(1000);
 
             Console.WriteLine("Thread 2: Waiting for Lock A...");
 
