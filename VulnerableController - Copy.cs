@@ -37,7 +37,8 @@ public class VulnerableController : ControllerBase
         return Ok("Thread started.");
     }
 
-    //A deadlock occurs when two or more threads are waiting for each other to release resources, and none of them can proceed
+    //A deadlock occurs when two or more threads are waiting for each other to 
+	//release resources, and none of them can proceed
     [HttpGet("deadlock")]
     public IActionResult CauseDeadlock()
     {
@@ -53,5 +54,46 @@ public class VulnerableController : ControllerBase
 
         return Ok("Both threads completed (if no deadlock occurred).");
     }
+	
+	private static void Thread1Work()
+    {
+        // Thread 1 acquires Lock A first
+        lock (_lockA)
+        {
+            Console.WriteLine("Thread 1: Holding Lock A...");
 
+            // Sleep ensures Thread 2 has time to acquire Lock B
+            // This makes the deadlock deterministic for testing
+            Thread.Sleep(100); 
+
+            Console.WriteLine("Thread 1: Waiting for Lock B...");
+            
+            // Thread 1 tries to acquire Lock B, but Thread 2 holds it
+            lock (_lockB)
+            {
+                Console.WriteLine("Thread 1: Acquired Lock B.");
+            }
+        }
+    }
+
+    private static void Thread2Work()
+    {
+        // Thread 2 acquires Lock B first (The reverse order of Thread 1)
+        lock (_lockB)
+        {
+            Console.WriteLine("Thread 2: Holding Lock B...");
+
+            // Sleep ensures Thread 1 has time to acquire Lock A
+            Thread.Sleep(100);
+
+            Console.WriteLine("Thread 2: Waiting for Lock A...");
+
+            // Thread 2 tries to acquire Lock A, but Thread 1 holds it
+            lock (_lockA)
+            {
+                Console.WriteLine("Thread 2: Acquired Lock A.");
+            }
+        }
+    }
 }
+
