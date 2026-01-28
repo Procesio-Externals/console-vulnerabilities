@@ -9,11 +9,13 @@ namespace WebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class VulnerableController : ControllerBase
+public class VulnerableControllerCopy : ControllerBase
 {
     private readonly IThreadManager _threadManager;
+    private static object _lockA;
+    private static object _lockB;
 
-    public VulnerableController(IThreadManager threadManager)
+    public VulnerableControllerCopy(IThreadManager threadManager)
     {
         _threadManager = threadManager;
     }
@@ -128,13 +130,14 @@ public class VulnerableController : ControllerBase
         return Ok("Thread started.");
     }
 
-    //A deadlock occurs when two or more threads are waiting for each other to release resources, and none of them can proceed
+    //A deadlock occurs when two or more threads are waiting for each other to 
+    //release resources, and none of them can proceed
     [HttpGet("deadlock")]
     public IActionResult CauseDeadlock()
     {
         // Start two threads
-        Thread thread1 = new Thread(_threadManager.Thread1Task);
-        Thread thread2 = new Thread(_threadManager.Thread2Task);
+        Thread thread1 = new Thread(Thread1Work);
+        Thread thread2 = new Thread(Thread2Work);
 
         thread1.Start();
         thread2.Start();
@@ -143,6 +146,47 @@ public class VulnerableController : ControllerBase
         thread2.Join(); // Wait for thread2 to complete
 
         return Ok("Both threads completed (if no deadlock occurred).");
+    }
+
+    private static void Thread1Work()
+    {
+        // Thread 1 acquires Lock A first
+        lock (_lockA)
+        {
+            Console.WriteLine("Thread 1: Holding Lock A...");
+
+            // Sleep ensures Thread 2 has time to acquire Lock B
+            // This makes the deadlock deterministic for testing
+            Thread.Sleep(1000);
+
+            Console.WriteLine("Thread 1: Waiting for Lock B...");
+
+            // Thread 1 tries to acquire Lock B, but Thread 2 holds it
+            lock (_lockB)
+            {
+                Console.WriteLine("Thread 1: Acquired Lock B.");
+            }
+        }
+    }
+
+    private static void Thread2Work()
+    {
+        // Thread 2 acquires Lock B first (The reverse order of Thread 1)
+        lock (_lockB)
+        {
+            Console.WriteLine("Thread 2: Holding Lock B...");
+
+            // Sleep ensures Thread 1 has time to acquire Lock A
+            Thread.Sleep(1000);
+
+            Console.WriteLine("Thread 2: Waiting for Lock A...");
+
+            // Thread 2 tries to acquire Lock A, but Thread 1 holds it
+            lock (_lockA)
+            {
+                Console.WriteLine("Thread 2: Acquired Lock A.");
+            }
+        }
     }
 
     //GC pressure: when app generates many objects in memory & GC is frequently triggered to reclaim unused memory
